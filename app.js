@@ -160,7 +160,7 @@ app.use('/service/*', (req, res, next) => {
   })(req, res, next);
 });
 
-const serverURI = "http://localhost:9002";
+const serverURI = process.env.server_URL || "http://localhost:9002";
 //const serverURI = "http://micro-service-ref-app:9002";
 
 app.use('/general-data/*', (req, res, next) => {
