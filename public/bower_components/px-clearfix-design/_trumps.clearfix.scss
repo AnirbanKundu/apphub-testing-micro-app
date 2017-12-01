@@ -1,0 +1,25 @@
+////
+/// PX-CLEARFIX-DESIGN
+/// Minimal clearfix helper
+/// @group px-clearfix-design
+////
+
+@import 'px-functions-design/_tools.functions.scss';
+
+@if import-once('trumps.clearfix') {
+
+  /**
+   * Micro clearfix, as per: css-101.org/articles/clearfix/latest-new-clearfix-so-far.php
+   * Extend the clearfix class with Sass to avoid the `.clearfix` class appearing
+   * over and over in your markup.
+   */
+
+  .clearfix,
+  %clearfix {
+    &:after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+  }
+}

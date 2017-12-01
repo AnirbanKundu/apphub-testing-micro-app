@@ -1,0 +1,206 @@
+
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
+    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
+    See https://github.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+
+<!--
+Element providing means to open and close overlay modal with methods to capture action when modal is submitted.
+
+##### Usage
+
+    <px-modal modal-heading="Sign in required" btn-modal-positive="Sign In" btn-modal-negative="Cancel">
+      <button class="btn btn--primary modal-trigger">Launch Modal</button>
+      Lorem ipsum dolor sit amet.
+    </px-modal>
+
+
+### Styling
+The following custom properties are available for styling:
+
+Custom property | Description | Default
+------------ | ------------- | ------------
+`--px-modal-background-color`   | Background color of the modal dialog | `$white`
+`--px-modal-overlay-color`   | Base color for the semi-opaque overlay | `$black`
+`--px-modal-border-color`   | Color used for the separator line in the modal dialog | `$gray4`
+
+In addition, the following mixins can be used to completely override the style of the modal component.
+
+Custom property | Description | Default
+------------ | ------------- | ------------
+`--px-modal`   | Style mixin to be applied to the modal overlay (background layer) | {}
+`--px-modal-content`   | Style mixin to be applied to the modal content box | {}
+`--px-modal-title`   | Style mixin to be applied to the title of the modal content box | {}
+`--px-modal-buttons`   | Style mixin to be applied to all of the buttons at the bottom of the overlay | {}
+`--px-modal-positive-button`   | Style mixin to be applied specifically to the positive action button of the overlay | {}
+
+@element px-modal
+@blurb Element providing means to open and close overlay modal with methods to capture action when modal is submitted.
+@homepage index.html
+@demo demo.html
+-->
+<link rel="import" href="css/px-modal-styles.html"/>
+
+<dom-module id="px-modal">
+  <template>
+    <style include="px-modal-styles"></style>
+    
+    <div on-tap="modalButtonClicked">
+      <content select=".modal-trigger"></content>
+    </div>
+    <div class="modal flex flex--top flex--center full-height u-1/1" id="{{modalId}}" role="dialog" aria-labelledby$="{{modalIdTitle(modalId)}}">
+      <section class="modal__content u-p+" role=region>
+        <h3 id="{{modalIdTitle(modalId)}}" class="modal__title u-mt0 epsilon weight--normal">{{modalHeading}}</h3>
+        <content></content>
+        <div class="modal__buttons flex flex--right">
+          <div class=flex>
+            <template class="modal-toggle" is="dom-if" if="{{btnModalNegative}}">
+              <button on-click="modalActionButtonClicked" id="btnModalNegative" class="btn u-mr-">{{btnModalNegative}}</button>
+            </template>
+            <template class="modal-toggle" is="dom-if" if="{{btnModalPositive}}">
+              <button on-click="modalActionButtonClicked" id="btnModalPositive" class="btn btn--primary" disabled$={{btnModalPositiveDisabled}}>{{btnModalPositive}}</button>
+            </template>
+        </div>
+      </section>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-modal',
+
+    properties: {
+
+      /**
+       * Modal id string
+       *
+       * @type {String}
+       */
+
+      modalId: {
+        type: String,
+        value: 'myModal'
+      },
+
+      /**
+       * Header Text for the modal window
+       *
+       * @type {String}
+       */
+
+      modalHeading: {
+        type: String
+      },
+
+      /**
+       * Text for button with positive action on modal
+       *
+       * @type {String}
+       */
+
+      btnModalPositive: {
+        type: String
+      },
+
+      /**
+       * Text for button with negative action on modal
+       *
+       * @type {String}
+       */
+
+      btnModalNegative: {
+        type: String
+      },
+
+      /**
+       * Name of the event that will be raised when the positive modal button is clicked.
+       *
+       * @type {String}
+       */
+
+      btnModalPositiveClickedEventName: {
+        type: String,
+        value: "btnModalPositiveClicked"
+      },
+
+      /**
+       * Name of the event that will be raised when the negative modal button is clicked.
+       *
+       * @type {String}
+       */
+
+      btnModalNegativeClickedEventName: {
+        type: String,
+        value: "btnModalNegativeClicked"
+      },
+      /**
+       * Flag to indicate if the positive button should be disabled within the modal.
+       *
+       * @type Boolean
+       */
+      btnModalPositiveDisabled: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
+      },
+      /**
+       * Flag to indicate if scrolling of the main application should be disabled while the modal is open.
+       *
+       * @type Boolean
+       * @default true
+       */
+      scrollingDisabled: {
+        type: Boolean,
+        value: true
+      }
+
+    },
+    /**
+     * returns the modal title + the string '-title'
+     *
+     * @method {modalIdTitle}
+     * @param {modalTitle}
+     * @return modalTitle + '-title'
+     */
+    modalIdTitle: function(modalTitle) {
+      return modalTitle + '-title';
+    },
+    /**
+     * fires a positive or negetive clicked event.
+     *
+     * @method {modalActionButtonClicked}
+     * @param {evt}
+     *
+     */
+    modalActionButtonClicked: function(evt){
+        if (evt.target.id === 'btnModalPositive'){
+          this.fire(this.btnModalPositiveClickedEventName);
+        }
+        else{
+          this.fire(this.btnModalNegativeClickedEventName);
+        }
+        this.modalButtonClicked(evt);
+    },
+    /**
+     * sets visibility of the modal.
+     *
+     * @method {modalButtonClicked}
+     * @param {evt}
+     *
+     */
+    modalButtonClicked: function(evt){
+      var modalEle = this.$$("#" + this.modalId);
+      modalEle.style.visibility = (modalEle.style.visibility === "visible") ? "hidden" : "visible";
+      if(this.scrollingDisabled) {
+        document.body.style.overflow = (document.body.style.overflow === "hidden") ? "auto" : "hidden";
+        document.documentElement.style.overflow = (document.documentElement.style.overflow === "hidden") ? "auto" : "hidden";
+      }
+    }
+  });
+</script>

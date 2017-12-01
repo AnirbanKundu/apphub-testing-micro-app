@@ -1,0 +1,46 @@
+<!-- es6-promise required for ie11 and below -->
+<script src="bower_components/es6-promise/es6-promise.min.js"></script>
+
+<!-- webcomponents-lite required for browsers that don't support HTML imports -->
+<!-- (basically every browser but chrome) -->
+<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+<!-- Px Stuff -->
+<link rel="import" href="polymer_loader.html">
+
+<!-- App Styles -->
+<link type="text/css" rel="stylesheet" href="styles/app.css">
+
+<!-- ui-microapp build version: ##BUILDVERSION##  (DO NOT DELETE THIS BLOCK) -->
+
+<div class="pxh-wrapper">
+  <div class="pxh-view-header pxh-view-header--wide@md pxh-view-header--narrow@lg pxh-view-header--nudge-until@md">
+    <h1 class="pxh-view-header__title">
+      <a href="#" class="pxh-view-header__title-link">
+        Microapp View Header
+      </a>
+    </h1>
+  </div>
+
+  <div class="pxh-view pxh-view--wide@md pxh-view--narrow@lg" id="js-view">
+    <div id="content" data-ng-controller="AppCtrl as app">
+      <div role="region" ui-view>
+        <div class="pxh-spinner pxh-spinner--large"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  window.openMymodal = function(){
+    Polymer.dom(document).querySelector('#mymodal').modalButtonClicked();
+  };
+</script>
+
+<script src="jspm_packages/system.js"></script>
+<script src="config.js"></script>
+<script>
+  /* global System */
+  System.import('main');
+</script>
+
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>

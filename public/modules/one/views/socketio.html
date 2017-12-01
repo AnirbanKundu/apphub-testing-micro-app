@@ -1,0 +1,58 @@
+<div class="pxh-card sio">
+	<header class="sio-header flex flex--middle flex--justify">
+		<h3 class="caps u-mv0" id="header-text-1">
+			<i class="fa-plug fa u-mr--"></i>Socket.IO {{ "DEMO"  | translate }}
+		</h3>
+		<section>
+			<button class="btn btn--primary u-ml-"
+					id="sio-connect-btn"
+					ng-class="{'btn--primary': !vm.isConnected, 'btn--secondary': vm.isConnected}"
+					ng-click="vm.connectBtnClick()" >
+                {{vm.isConnected ? "DISCONNECT" : "CONNECT" | translate}}
+			</button>
+		</section>
+	</header>
+	<div class="sio-content" scroll-down="vm.msgList">
+		<div id="sio-demo-content">
+			<ul id="sio-messages">
+				<li ng-repeat="msg in vm.msgList track by $index">
+					<div class="sio-originator"><b ng-style="{color: msg.color}">{{ msg.from }}</b></div>
+					<div class="sio-msg-box">{{msg.msg}}</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="sio-footer">
+		<form novalidate id="chatform" class="sio-form">
+			<div class="input-group">
+				<input id="sio-msg-input-box"
+					   class="text-input"
+					   ng-disabled="!vm.isConnected"
+					   ng-class="{'btn--disabled': !vm.isConnected}"
+					   ng-model="vm.msg"
+					   autocomplete="off"
+					   ng-keyup="vm.notifyTyping($event)"
+					   placeholder="{{ 'TYPE_MESSAGE_HERE' | translate }}"/>
+				<button type="button"
+						class="btn btn--secondary input-group__addon"
+						id="sio-send-msg-btn"
+						value="Send"
+						ng-disabled="!vm.isConnected"
+						ng-class="{'btn--disabled': !vm.isConnected, 'btn--primary': vm.isConnected}"
+						ng-click="vm.submitFn()">
+                    {{ 'SEND' | translate }}
+				</button>
+				<input type="submit"
+					   class="hidden"
+					   id="send-msg-on-enter"
+					   ng-disabled="!vm.isConnected"
+					   ng-class="{'btn--disabled': !vm.isConnected}"
+					   ng-click="vm.submitFn()"/>
+			</div>
+		</form>
+	</div>
+	<div id="notifyUser" ng-show="!!vm.userIsTyping">
+		{{vm.userIsTyping}} {{"USER_IS_TYPING" | translate}}
+	</div>
+</div>
+

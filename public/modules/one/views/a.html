@@ -1,0 +1,108 @@
+<div class="pxh-card">
+  <header class="u-mb flex flex--middle flex--justify">
+    <h3 class="caps u-mv0" id="header-text-1">
+      <i class="fa-dashboard fa u-mr--" ></i>{{ 'TITLE_SERVICE_DATA' | translate }}
+    </h3>
+    <button class="btn btn--bare">
+      <i class="fa fa-chevron-down"></i>
+    </button>
+  </header>
+  <section class="content">
+    <p>{{ 'DATA_SERVICE_CONTENT' | translate }}</p>
+    <div ng-repeat="temp in vm.data.temps">
+      <gauge-linear value="{{temp}}" labels="{{temp}}" width="350" thresholds='{"h":80,"hh":90}'></gauge-linear>
+    </div>
+  </section>
+</div>
+
+<div class="pxh-card">
+  <header class="u-mb flex flex--middle flex--justify">
+    <h3 class="caps u-mv0" id="header-text-2">
+      <i class="fa-bar-chart fa u-mr--" ></i>{{ 'TITLE_REAL_TIME_CHART' | translate }}
+    </h3>
+    <button class="btn btn--bare">
+      <i class="fa fa-chevron-down"></i>
+    </button>
+  </header>
+  <section class="content">
+    <p>{{ 'REALTIME_CHART_CONTENT' | translate }}</p>
+    <div style="overflow-x: hidden">
+      <chart-column
+        data="{{vm.dynamic0}}"
+        thresholds="{{vm.dynamicThresholds}}"
+        height="100"
+        width="600"
+        show-x-axis="true"
+      ></chart-column>
+    </div>
+  </section>
+</div>
+
+<div class="pxh-card">
+  <header class="u-mb flex flex--middle flex--justify">
+    <h3 class="caps u-mv0" id="header-text-3">
+      <i class="fa-bar-chart fa u-mr--" ></i>{{ 'TITLE_OPEN_MODAL' | translate }}</h3>
+    <button class="btn btn--bare">
+    </button>
+  </header>
+  <section class="content">
+    <p>{{ 'MODAL_DEMO_CONTENT' | translate }}</p>
+
+    <px-modal
+      id="mymodal"
+      btn-modal-positive="{{ 'CONTINUE' | translate }}"
+      btn-modal-negative="{{ 'BACK' | translate }}"
+      modal-heading="{{ 'MODAL_HEADER' | translate }}">
+      <button class="btn btn--primary modal-trigger">{{ 'MODAL_TIGGER_TEXT' | translate }}</button>
+      <p>
+        <b>{{ 'SIGN_IN_MESSAGE_1' | translate }}</b>
+      </p>
+      <p>{{ 'SIGN_IN_MESSAGE_2' | translate }}</p>
+    </px-modal>
+
+  </section>
+</div>
+
+<div class="pxh-card">
+  <header class="u-mb flex flex--middle flex--justify">
+    <h3 class="caps u-mv0" id="header-text-3">
+      <i class="fa-bar-chart fa u-mr--" ></i>{{ 'COOKIE_TEST_HEADER' | translate }}</h3>
+    <button class="btn btn--bare">
+    </button>
+  </header>
+  <section class="content">
+    <p>{{ 'COOKIES_CONTENT' | translate }}</p>
+    <div>
+      <input type="text" id="cookie-name" placeholder="{{ 'COOKIE_NAME_PLACEHOLDER' | translate }}" ng-model="cName"/>
+      <input type="text" id="cookie-value" placeholder="{{ 'COOKIE_VALUE_PLACEHOLDER' | translate }}" ng-model="cValue"/>
+      <button id="cookie-set-button" class="btn btn--primary" ng-click="setCookie()">{{ 'SET_COOKIE_TEXT' | translate }}</button>
+      <p ng-show="isCookieSet" id="isSuccessful">{{ 'COOKIE_SET_TEXT' | translate }}</p>
+    </div>
+    <div>
+      <button id="cookie-get-button" class="btn btn--primary" ng-click="getCookie()">{{ 'GET_COOKIE_TEXT' | translate }}</button>
+      <p id="cookieResp">{{cookieResponse}}</p>
+    </div>
+   </section>
+</div>
+
+<div class="pxh-card">
+  <header class="u-mb flex flex--middle flex--justify">
+    <h3 class="caps u-mv0" id="headertext">
+      <i class="fa-link fa u-mr--" id="headericon"></i>
+      {{ 'TITLE_LINKS' | translate }}
+    </h3>
+  </header>
+  <section class="content">
+    <p><a id="aNavAnalytics" ng-class="{'module-link--unavailable': vm.analyticsUnavailable}" href="{{vm.analyticsUrl}}">{{ 'NAVIGATE_TO_ANALYTICS_LINK' | translate }}</a></p>
+    <p>
+      <a id="aNavAnalyticsChromeless" ng-class="{'module-link--unavailable': vm.analyticsUnavailable}" href="{{vm.chromelessAnalyticsUrl}}" target="_blank">{{ 'OPEN_ANALYTICS_CHROMELESS_LINK' | translate }}</a>
+      <br>
+      {{ 'CHROMELESS_CONTENT1' | translate }}<code class="code--inline">/?chromeless=true</code>.
+      <br>
+      For example, <code class="code--inline">apphubService.getPath(APPID_ANALYTICS) + "/?chromeless=true"</code>
+      <br>
+      Make sure <code class="code--inline">/#/</code> is added <em>after</em> the chromeless parameter.
+    </p>
+    <p><a id="aNavBogus" ng-class="{'module-link--unavailable': vm.bogusUnavailable}" href="{{vm.bogusUrl}}">{{ 'NAVIGATE_BOGUS_LINK' | translate }}</a></p>
+  </section>
+</div>

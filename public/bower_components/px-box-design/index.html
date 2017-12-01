@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>px-box-design Demo</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+  <!-- Boilerplate: Import Libraries -->
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../px-theme/px-theme-styles.html" />
+  <style include="px-theme-styles" is="custom-style"></style>
+  <link rel="import" href="../px-sass-doc/px-sass-doc.html" />
+  <link rel="import" href="../px-polymer-font-awesome/polymer-font-awesome.html" />
+
+  <!-- 0: Import Module Styles -->
+  <link rel="import" href="css/px-box-design-demo-styles.html" />
+  <style include="px-box-design-demo-styles" is="custom-style"></style>
+
+</head>
+<body>
+<template id="just-for-demo" is="dom-bind">
+
+<!-- 1: Describe Module -->
+<px-sass-doc
+  module-name="px-box-design"
+  description="The Box module simply boxes off content, with a variety of padding options."
+  layer="objects"
+  sassdoc-path="sassdoc.json"
+  dependencies='[
+    "https://github.com/PredixDev/px-clearfix-design",
+    "https://github.com/PredixDev/px-defaults-design"
+  ]'
+  selected-options="{{selectedOptions}}">
+
+<!-- 2: Set Options -->
+<px-sass-doc-option
+  option-name="Padding"
+  choose-with="dropdown"
+  choices='[
+    "flush",
+    "tiny",
+    "small",
+    "regular (default)",
+    "large",
+    "huge"
+  ]'
+  default-choice="regular (default)">
+</px-sass-doc-option>
+
+<!-- 3: Make HTML Demo -->
+<section data-slot="demoHTML">
+<div class$="{{boxClasses}}">
+  Lorem Ipsum Dolor Sit Amet
+</div>
+</section>
+
+<!-- 4: Set Import Slot -->
+<section data-slot="import">
+{{importCode}}
+</section>
+
+<!-- 5: Set Usage HTML -->
+<section data-slot="intro">
+<strong>Note:</strong> a border has been added to the demo above for
+illustration purposes - by default, px-box-design does not include a
+border around box elements.
+</section>
+
+<section data-slot="usage">
+```
+<!-- Default -->
+<div class="box">...</div>
+
+
+<!-- Box Flush -->
+<div class="box box--flush">...</div>
+
+
+<!-- Box Tiny -->
+<div class="box box--tiny">...</div>
+
+
+<!-- Box Small -->
+<div class="box box--small">...</div>
+
+
+<!-- Box Large -->
+<div class="box box--large">...</div>
+
+
+<!-- Box Huge -->
+<div class="box box--huge">...</div>
+```
+</section>
+
+</px-sass-doc>
+</template>
+
+<!-- 6: Handle selectedOptions, update demo -->
+<script>
+  var template = document.querySelector('template[is=dom-bind]');
+
+  document.addEventListener('px-sass-doc-options-updated', function(evt) {
+    template.importCode = template._importCode();
+    template.boxClasses = template._boxClasses();
+  });
+
+  template._boxClasses = function() {
+    var opts = template.selectedOptions || {}, strings = [];
+    if (opts.Padding === "flush")         strings.push("box--flush");
+    if (opts.Padding === "tiny")          strings.push("box--tiny");
+    if (opts.Padding === "small")         strings.push("box--small");
+    if (opts.Padding === "large")         strings.push("box--large");
+    if (opts.Padding === "huge")          strings.push("box--huge");
+    return ("box " + strings.join(" ")).trim();
+  };
+
+  template._importCode = function() {
+    var opts = template.selectedOptions || {}, strings = [];
+    if (opts.Padding === "flush")          strings.push("$inuit-enable-box--flush : true;");
+    if (opts.Padding === "tiny")           strings.push("$inuit-enable-box--tiny : true;");
+    if (opts.Padding === "small")          strings.push("$inuit-enable-box--small : true;");
+    if (opts.Padding === "large")          strings.push("$inuit-enable-box--large : true;");
+    if (opts.Padding === "huge")           strings.push("$inuit-enable-box--huge : true;");
+    return (strings.join("\n") + "\n@import 'px-box-design/_objects.box.scss';").trim();
+  };
+</script>
+
+</body>
+</html>

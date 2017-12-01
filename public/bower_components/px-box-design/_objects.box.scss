@@ -1,0 +1,92 @@
+////
+/// PX-BOX-DESIGN
+/// The box object simply boxes off content
+/// @group px-box-design
+////
+
+@import "px-defaults-design/_settings.defaults.scss";
+@import "px-clearfix-design/_trumps.clearfix.scss";
+
+/// Prepend value for all generated classes
+/// @group px-box-design:variables:style
+/// @type String [default]
+$inuit-box-namespace        : $inuit-namespace !default;
+
+/// Produce CSS for boxes with no padding?
+/// @group px-box-design:variables:flag
+/// @type Boolean [default]
+$inuit-enable-box--flush    : false !default;
+
+/// Produce CSS for boxes with tiny padding?
+/// @group px-box-design:variables:flag
+/// @type Boolean [default]
+$inuit-enable-box--tiny     : false !default;
+
+/// Produce CSS for boxes with small padding?
+/// @group px-box-design:variables:flag
+/// @type Boolean [default]
+$inuit-enable-box--small    : false !default;
+
+/// Produce CSS for boxes with large padding?
+/// @group px-box-design:variables:flag
+/// @type Boolean [default]
+$inuit-enable-box--large    : false !default;
+
+/// Produce CSS for boxes with huge padding?
+/// @group px-box-design:variables:flag
+/// @type Boolean [default]
+$inuit-enable-box--huge     : false !default;
+
+
+/// So we can apply the `.box` class to naturally-inline elements.
+.#{$inuit-box-namespace}box,
+%#{$inuit-box-namespace}box {
+  @extend %clearfix;
+  display: block; /* [1] */
+  padding: $inuit-base-spacing-unit;
+
+  > :last-child {
+      margin-bottom: 0;
+  }
+
+}
+
+/// Flush box with no padding
+@if ($inuit-enable-box--flush == true) {
+  .#{$inuit-box-namespace}box--flush,
+  %#{$inuit-box-namespace}box--flush {
+      padding: 0;
+  }
+}
+
+/// Box with tiny padding
+@if ($inuit-enable-box--tiny == true) {
+  .#{$inuit-box-namespace}box--tiny,
+  %#{$inuit-box-namespace}box--tiny {
+      padding: $inuit-base-spacing-unit--tiny;
+  }
+}
+
+/// Box with small padding
+@if ($inuit-enable-box--small == true) {
+  .#{$inuit-box-namespace}box--small,
+  %#{$inuit-box-namespace}box--small {
+      padding: $inuit-base-spacing-unit--small;
+  }
+}
+
+/// Box with large padding
+@if ($inuit-enable-box--large == true) {
+  .#{$inuit-box-namespace}box--large,
+  %#{$inuit-box-namespace}box--large {
+      padding: $inuit-base-spacing-unit--large;
+  }
+}
+
+/// Box with huge padding
+@if ($inuit-enable-box--huge == true) {
+  .#{$inuit-box-namespace}box--huge,
+  %#{$inuit-box-namespace}box--huge {
+      padding: $inuit-base-spacing-unit--huge;
+  }
+}

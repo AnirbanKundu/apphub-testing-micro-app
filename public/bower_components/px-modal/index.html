@@ -1,0 +1,269 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>px-modal Demo</title>
+  <link rel="stylesheet" type="text/css" href="css/px-modal-demo.css"/>
+  <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../px-theme/px-theme-styles.html">
+  <style include="px-theme-styles" is="custom-style"></style>
+
+  <link rel="import" href="../px-api-viewer/px-api-viewer.html" />
+  <link rel="import" href="../px-tabs/px-tab-set.html" />
+  <link rel="import" href="px-modal.html"/>
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="import" href="../px-demo-snippet/px-demo-snippet.html">
+  <link rel="import" href="../px-polymer-font-awesome/polymer-font-awesome.html" />
+  <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+
+  <style is="custom-style">
+    :root {
+      --px-modal-title:{
+        color: red;
+      };
+    }
+  </style>
+
+  </head>
+
+<body>
+
+  <!-- Wrap elements with auto-binding template to -->
+  <!-- allow use of Polymer bindings in main document -->
+  <template id="just-for-demo" is="dom-bind" >
+    <style>
+      .grabContent {
+        margin-right: 10px;
+      }
+    </style>
+    <!-- discription -->
+    <div class="hero u-p++ text--shadow">
+      <a class="actionable flex flex--right flex--middle" href="https://github.com/PredixDev/px-modal" target="_blank"><iron-icon class="menu__open" icon="fa:fa-github"></iron-icon>View on Github</a>
+  		<h1 class="delta">px-modal</h1>
+      <div class="description-text">
+    		<p>
+          Modals are useful when a user needs to leave the normal application flow to focus on a specific message or workflow.
+          The modal is a somewhat contentious UI element – sometimes there is no way around it, but generally speaking, using modals frequently or stacking modals on modals should be avoided.
+    		</p>
+      </div>
+  		<div class="flex">
+  			<img class="u-mr--" src="https://img.shields.io/travis/PredixDev/px-modal.svg?style=flat-square" alt="Travis"/>
+  			<img class="u-mr--" src="https://img.shields.io/bower/v/px-modal.svg?style=flat-square" alt="Bower"/>
+  			<img class="u-mr--" src="https://img.shields.io/github/issues-raw/PredixDev/px-modal.svg?style=flat-square" alt="Issues"/>
+  		</div>
+  	</div>
+
+    <!-- mega demo -->
+    <div style="position: relative;" class="u-pb++ flex flex--col" id="defaultTab">
+      <div class="tabContainer u-pt++ u-pl++">
+        <px-tab-set selected="{{selected}}" bare no-bottom-border>
+          <template is="dom-repeat" items="{{optionsArray}}">
+            <px-tab>Option {{indexPlusOne(index)}}</px-tab>
+          </template>
+        </px-tab-set>
+      </div>
+      <px-tab-pages selected="{{selected}}">
+        <template is="dom-repeat" items="{{optionsArray}}">
+          <section class="tab-page">
+            <div class="mega-demo flex u-ph++ u-pb++">
+              <!-- Properties -->
+              <div class="properties u-ph+ u-pb+ u-mt+">
+                <p class="epsilon">Properties</p>
+                <div class="u-mb-">Btn Modal Positive: <input class="text-input" type="text" placeholder="{{item.btnModalPositive}}" value="{{item.btnModalPositive::input}}" /></div>
+                <div class="u-mb-">Btn Modal Negative: <input class="text-input" type="text" placeholder="{{item.btnModalNegative}}" value="{{item.btnModalNegative::input}}" /></div>
+                <div class="u-mb-">Modal Heading: <input class="text-input" type="text" placeholder="{{item.modalHeading}}" value="{{item.modalHeading::input}}" /></div>
+                <div class="flex u-mb-">
+                  <input id="btnModalPositiveDisabled{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.btnModalPositiveDisabled::change}}">
+                  <label for$="btnModalPositiveDisabled{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                  <div class="u-ml-">Positive Btn Disabled</div>
+                </div>
+                <div class="flex u-mb-">
+                  <input id="scrollingDisabled{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.scrollingDisabled::change}}">
+                  <label for$="scrollingDisabled{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                  <div class="u-ml-">Scrolling Disabled</div>
+                </div>
+              </div>
+
+              <div class="demoContainer u-mt+">
+                <!-- demo -->
+                <div class="flex flex--col">
+                  <div class="demo u-p+">
+
+                      <template is="dom-if" if="{{_isThirdTab(index)}}">
+                        <input id="thirdInput" class="text-input input--regular" type="text" value="Take focus off me">
+                      </template>
+
+                      <template is="dom-if" if="{{_isFourthTab(index)}}">
+                        <a href="javascript:void(0)" target="_blank" class="gotoGE">Click me to get a modal, and continue to GE.com</a>
+                      </template>
+
+                      <px-modal
+                        btn-modal-positive="[[item.btnModalPositive]]"
+                        btn-modal-positive-disabled="[[item.btnModalPositiveDisabled]]"
+                        btn-modal-negative="[[item.btnModalNegative]]"
+                        modal-heading="[[item.modalHeading]]"
+                        scrolling-disabled="[[item.scrollingDisabled]]"
+                        id="modal{{index}}">
+
+                        <template is="dom-if" if="{{_isFirstTab(index)}}">
+                          <button class="btn btn--tertiary modal-trigger">Open Modal</button>
+                        </template>
+
+                        <template is="dom-if" if="{{_isSecondTab(index)}}">
+                          <a href="javascript:void(0)" class="modal-trigger">Open Modal</a>
+                        </template>
+
+                        <p>
+                          <b>Please sign-in to access this part of the application.</b>
+                        </p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                          culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                      </px-modal>
+
+                  </div>
+                  <div>
+                    <px-demo-snippet
+                      element-properties={{item}}
+                      element-name="px-modal">
+                    </px-demo-snippet>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="apiContainer">
+              <div class="flex flex--col api u-mt++" >
+                <div>
+                  <px-api-viewer source="px-modal"></px-api-viewer>
+                </div>
+              </div>
+            </div>
+          </section>
+        </template>
+      </px-tab-pages>
+    </div>
+    <footer class="footer flex flex--center">
+      <div class="footer__container u-pv++">
+        <div>
+          <a href="https://ge.com/digital" >
+            <img src="monogram-wdmk.png" alt="GE Monogram" class="footer__img">
+          </a>
+        </div>
+        <div class="footer__list">
+          <ul class="list-inline list-inline--delimited">
+            <li>
+              <a href="http://predix.io/legal" class="footer__list--lnk">Legal</a>
+            </li>
+            <li>
+              <a href="mailto:info@predix.io" class="footer__list--lnk">Contact Us</a>
+            </li>
+            <li>Copyright &copy; {{year}} General Electric Company. All rights reserved.</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </template>
+<script>
+window.addEventListener('WebComponentsReady', function() {
+  var template = document.querySelector('template[is=dom-bind]'),
+      year = new Date(),
+      optionsArray = [
+        {
+          btnModalPositive: "Continue",
+          btnModalPositiveDisabled: true,
+          btnModalNegative: "Back",
+          modalHeading: "Sign-in required",
+          scrollingDisabled: true,
+          lightDomContent: "<button class='btn btn--primary modal-trigger'>Open Modal</button><p><b>Please sign-in to access this part of the application.</b></p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt inculpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+          btnModalPositive: "Continue",
+          btnModalPositiveDisabled: false,
+          btnModalNegative: "Back",
+          modalHeading: "Sign-in required",
+          scrollingDisabled: false,
+          lightDomContent: "<a href='javascript:void(0)'' class='modal-trigger'>Open Modal</a><p><b>Please sign-in to access this part of the application.</b></p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt inculpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+          btnModalPositive: "Continue",
+          btnModalPositiveDisabled: false,
+          btnModalNegative: "Back",
+          modalHeading: "Sign-in required",
+          scrollingDisabled: true,
+          lightDomContent: "<input class='text-input' type='text' placeholder='Take focus off me' id='thirdInput'><p><b>Please sign-in to access this part of the application.</b></p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt inculpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+          btnModalPositive: "Continue",
+          btnModalPositiveDisabled: false,
+          btnModalNegative: "Back",
+          modalHeading: "Sign-in required",
+          scrollingDisabled: false,
+          lightDomContent: "<a href='javascript:void(0)' class='gotoGE'>Click me to get a modal, and continue to GE.com</a><p><b>Please sign-in to access this part of the application.</b></p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt inculpa qui officia deserunt mollit anim id est laborum.</p>"
+        }
+      ],
+      indexPlusOne = function(num) {
+        return num + 1;
+      },
+      _isFirstTab = function(index) {
+        return index === 0;
+      },
+      _isSecondTab = function(index) {
+        return index === 1;
+      },
+      _isThirdTab = function(index) {
+        return index === 2;
+      },
+      _isFourthTab = function(index) {
+        return index === 3;
+      },
+      _clickModalButton = function(evt, modalNum) {
+        Polymer.dom(document).querySelector("#modal" + modalNum).modalButtonClicked();
+      },
+      pxTabs = Polymer.dom(document).querySelector('px-tab-pages'),
+      lightDomLoaded = function() {
+        var thirdInput = Polymer.dom(pxTabs).querySelector('#thirdInput'),
+            fourthInput = Polymer.dom(pxTabs).querySelector('.gotoGE'),
+            modal4 = Polymer.dom(pxTabs).querySelector('#modal3');
+
+        if (thirdInput) {
+          thirdInput.addEventListener('blur', function() {
+            Polymer.dom(document).querySelector("#modal2").modalButtonClicked();
+          });
+        }
+        if (fourthInput) {
+          fourthInput.addEventListener('click', function() {
+            Polymer.dom(document).querySelector("#modal3").modalButtonClicked();
+          });
+        }
+        if (modal4) {
+          modal4.addEventListener('btnModalPositiveClicked', function() {
+            window.location.href = 'https://www.ge.com';
+          });
+        }
+
+      },
+      thirdInput,
+      content = Polymer.dom(pxTabs.root).querySelector('content'),
+      //this calls the _setCopyFrom method when the content is loaded, and makes sure the Polymer this is bound to that function.
+      _observer = Polymer.dom(content).observeNodes(lightDomLoaded);
+
+  year = year.getFullYear();
+
+  template.selected = "0";
+  template.optionsArray = optionsArray;
+  template.indexPlusOne = indexPlusOne;
+  template.year = year;
+  template._isFirstTab = _isFirstTab;
+  template._isSecondTab = _isSecondTab;
+  template._isThirdTab = _isThirdTab;
+  template._isFourthTab = _isFourthTab;
+  template._clickModalButton = _clickModalButton;
+
+});
+</script>
+
+</body>
+</html>

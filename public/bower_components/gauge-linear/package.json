@@ -1,0 +1,42 @@
+{
+  "name": "gauge-linear",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A reusable gauge component in Angular and ES6",
+  "repository": "https://github.build.ge.com/components/gauge-linear.git",
+  "author": "pete.butler@ge.com",
+  "main": "dist/module.js",
+  "devDependencies": {
+    "isparta": "^3.0.3",
+    "istanbul": "gotwarlost/istanbul.git#source-map",
+    "jasmine": "^2.3.1",
+    "jasmine-core": "^2.3.4",
+    "jspm": "^0.16.13",
+    "karma": "^0.13.14",
+    "karma-babel-preprocessor": "^5.2.1",
+    "karma-coverage": "douglasduteil/karma-coverage#next",
+    "karma-jasmine": "^0.3.6",
+    "karma-jspm": "^2.0.2",
+    "karma-phantomjs-launcher": "^0.2.0",
+    "karma-sourcemap-loader": "^0.3.5",
+    "phantomjs": "^1.9.17"
+  },
+  "scripts": {
+    "prepublish": "cp src/gauge-linear.js src/module.js dist/"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "src"
+    },
+    "dependencies": {
+      "angular": "github:angular/bower-angular@^1.4.7",
+      "d3": "npm:d3@^3.5.6",
+      "lodash": "npm:lodash@^3.10.1"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  }
+}

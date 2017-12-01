@@ -1,36 +1,107 @@
 {
-  "name": "ui-ref-app",
+  "name": "@hubs/ui-microapp",
   "version": "1.0.0",
-  "description": "ui-ref-app",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js",
-    "dist": "gulp dist"
-  },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "author": "anirban.kundu1981@gmail.com",
-  "license": "MIT",
+  "repository": "https://github.build.ge.com/hubs/ui-microapp",
+  "private": true,
   "engines": {
-    "node": "8.9.1",
-    "npm": "5.5.1"
+    "node": ">=6.0.0"
+  },
+  "main": "app.js",
+  "jspm": {
+    "directories": {
+      "baseURL": "public"
+    },
+    "dependencies": {
+      "angular": "github:angular/bower-angular@^1.4.0",
+      "angular-animate": "npm:angular-animate@1.4.1",
+      "angular-sanitize": "github:angular/bower-angular-sanitize@^1.5.6",
+      "angular-translate": "github:angular-translate/bower-angular-translate@^2.11.0",
+      "angular-translate-loader-static-files": "github:angular-translate/bower-angular-translate-loader-static-files@^2.12.0",
+      "angular-ui-bootstrap": "npm:angular-ui-bootstrap@^1.2.5",
+      "angular-ui-router": "github:angular-ui/ui-router@^0.2.15",
+      "babel": "npm:babel-core@^5.8.38",
+      "d3": "github:d3/d3@^3.5.6",
+      "hubs/ng-apphub-service": "ge:hubs/ng-apphub-service@master",
+      "lodash": "npm:lodash@^4.16.5",
+      "moment": "github:moment/moment@^2.15.2",
+      "socket.io": "npm:socket.io@^1.5.1",
+      "text": "github:systemjs/plugin-text@^0.0.9"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.38",
+      "babel-runtime": "npm:babel-runtime@^5.8.38",
+      "core-js": "npm:core-js@^1.2.7"
+    }
+  },
+  "keywords": [
+    "predix-app"
+  ],
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.18.0",
+    "cdnizer": "^1.1.6",
+    "del": "^2.2.2",
+    "eslint": "^3.9.1",
+    "eslint-config-airbnb-base": "^9.0.0",
+    "eslint-plugin-import": "^2.1.0",
+    "fs-extra": "^1.0.0",
+    "gulp": "^3.9.1",
+    "chai": "^3.5.0",
+    "chai-shallow-deep-equal": "^1.4.4",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-eslint": "^3.0.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-ngdocs": "^0.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^2.3.2",
+    "gulp-shell": "^0.5.2",
+    "gulp-sourcemaps": "^2.2.0",
+    "jasmine-core": "^2.5.2",
+    "jspm": "^0.16.47",
+    "karma": "^1.3.0",
+    "karma-babel-preprocessor": "^6.0.1",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-jspm": "^2.2.0",
+    "karma-junit-reporter": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-systemjs": "^0.15.0",
+    "minimist": "^1.2.0",
+    "mocha": "^3.1.2",
+    "moment": "^2.15.2",
+    "node-dir": "^0.1.16",
+    "node-sass-import-once": "^1.2.0",
+    "phantomjs": "^1.9.18",
+    "phantomjs-prebuilt": "^2.1.13",
+    "predix-cdn": "git+https://github.build.ge.com/tools/cdnify-microapp.git#master",
+    "protractor": "^4.0.10",
+    "protractor-http-mock": "^0.9.0",
+    "run-sequence": "^1.2.2",
+    "s3": "^4.4.0",
+    "sinon": "^1.17.6",
+    "supertest": "^2.0.1"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
-    "connect-multiparty": "^2.0.0",
     "cookie-parser": "^1.4.3",
-    "debug": "^2.2.0",
-    "express": "^4.13.4",
-    "express-bearer-token": "^2.1.0",
-    "fs": "0.0.1-security",
-    "helmet": "^2.0.0",
-    "lodash": "^4.13.1",
-    "path": "^0.12.7",
-    "request": "^2.81.0",
-    "request-promise": "^3.0.0",
-    "serve-static": "^1.13.1"
+    "express": "^4.14.0",
+    "express-request-proxy": "^2.0.0",
+    "http": "0.0.0",
+    "i18next": "^3.4.3",
+    "i18next-express-middleware": "^1.0.2",
+    "karma-chrome-launcher": "^2.0.0",
+    "request": "^2.79.0",
+    "serve-static": "^1.10.2",
+    "socket.io": "^1.5.1"
   },
-  "devDependencies": {}
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha test",
+    "jspm:bundle": "jspm bundle main public/bundle.js --inject --minify && mv public/bundle* dist/public && cp public/config.js dist/public && jspm unbundle",
+    "deploy": "npm test && ./buildLocal.sh && cf push -f manifest.sandbox.yml",
+    "start": "node app.js"
+  }
 }

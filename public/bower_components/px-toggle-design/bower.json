@@ -1,0 +1,38 @@
+{
+    "name": "px-toggle-design",
+    "version": "1.1.1",
+    "authors": [
+        "General Electric"
+    ],
+    "description": "Toggle is a simple on/off switch.",
+    "main": "_objects.toggle.scss",
+    "keywords": [
+        "px",
+        "sass",
+        "toggle"
+    ],
+    "homepage": "https://github.com/PredixDev/px-toggle-design.git",
+    "private": false,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests",
+        "OSS_Notice.pdf",
+        "CONTRIBUTING.md",
+        "HISTORY.md",
+        "LICENSE.md",
+        "README.md",
+        "scripts"
+    ],
+    "dependencies": {
+        "px-colors-design": "^0.2.20",
+        "px-defaults-design": "^1.0.2",
+        "px-helpers-design": "^0.3.7"
+    },
+    "devDependencies": {
+        "px-starter-kit-design": "^0.7.0",
+        "px-sass-doc": "^0.3.0"
+    }
+}
